@@ -12,19 +12,19 @@
   <a href="https://github.com/JamesIves/github-pages-deploy-action/actions">
     <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/unit-tests/badge.svg" alt="Unit test status badge">
   </a>
-  
+
   <a href="https://github.com/JamesIves/github-pages-deploy-action/actions">
     <img src="https://github.com/JamesIves/github-pages-deploy-action/workflows/integration-tests/badge.svg" alt="Integration test status badge">
   </a>
-  
+
   <a href="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev">
     <img src="https://codecov.io/gh/JamesIves/github-pages-deploy-action/branch/dev/graph/badge.svg" alt="Code coverage status badge">
   </a>
-  
+
   <a href="https://github.com/JamesIves/github-pages-deploy-action/releases">
     <img src="https://img.shields.io/github/v/release/JamesIves/github-pages-deploy-action.svg?logo=github" alt="Release version badge">
   </a>
-  
+
   <a href="https://github.com/marketplace/actions/deploy-to-github-pages">
     <img src="https://img.shields.io/badge/action-marketplace-blue.svg?logo=github&color=orange" alt="Github marketplace badge">
   </a>
@@ -134,6 +134,7 @@ By default, the action does not need any token configuration and uses the provid
 | `dry-run`          | Do not actually push back, but use `--dry-run` on `git push` invocations instead.                                                                                                                                                                                                                                                                                           | `with` | **No**   |
 | `single-commit`    | This option can be toggled to `true` if you'd prefer to have a single commit on the deployment branch instead of maintaining the full history. **Using this option will also cause any existing history to be wiped from the deployment branch**.                                                                                                                           | `with` | **No**   |
 | `force`            | Force-push new deployments to overwrite the previous version; otherwise, attempt to rebase new deployments onto any existing ones. This option is turned on by default and can be toggled off by setting it to `false`, which may be useful if there are multiple deployments in a single branch.                                                                           | `with` | **No**   |
+| `attempt-limit`    | How many rebase attempts to make before suspending the job. This option defaults to `3` and may be useful to increase when there are multiple deployments in a single branch.                                                                                                                                                                                               | `with` | **No**   |
 | `silent`           | Silences the action output preventing it from displaying git messages.                                                                                                                                                                                                                                                                                                      | `with` | **No**   |
 | `tag`              | Add a tag to the commit. Only works when `dry-run` is not used.                                                                                                                                                                                                                                                                                                             | `with` | **No**   |
 
