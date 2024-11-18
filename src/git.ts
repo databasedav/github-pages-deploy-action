@@ -268,6 +268,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.silent
       )
     } else {
+      const attemptLimit = action.attemptLimit || 3
       // Attempt to push our changes, but fetch + rebase if there were
       // other changes added in the meantime
       let attempt = 0
@@ -278,7 +279,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       do {
         attempt++
 
-        if (attempt > action.attemptLimit) throw new Error(`Attempt limit exceeded`)
+        if (attempt > attemptLimit) throw new Error(`Attempt limit exceeded`)
 
         // Handle rejection for the previous attempt first such that, on
         // the final attempt, time is not wasted rebasing it when it will
@@ -298,7 +299,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           )
         }
 
-        info(`Pushing changes… (attempt ${attempt} of ${action.attemptLimit})`)
+        info(`Pushing changes… (attempt ${attempt} of ${attemptLimit})`)
 
         const pushResult = await execute(
           `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
