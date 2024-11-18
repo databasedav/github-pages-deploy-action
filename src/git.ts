@@ -166,7 +166,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       Allows the user to specify the root if '.' is provided.
       rsync is used to prevent file duplication. */
     await execute(
-      `rsync -q -av --checksum --progress ${action.folderPath}/. ${
+      `rsync -q -av --checksum --progress --mkpath ${action.folderPath}/. ${
         action.targetFolder
           ? `${temporaryDeploymentDirectory}/${action.targetFolder}`
           : temporaryDeploymentDirectory
@@ -268,7 +268,6 @@ export async function deploy(action: ActionInterface): Promise<Status> {
         action.silent
       )
     } else {
-      const ATTEMPT_LIMIT = 3
       // Attempt to push our changes, but fetch + rebase if there were
       // other changes added in the meantime
       let attempt = 0
@@ -279,7 +278,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
       do {
         attempt++
 
-        if (attempt > ATTEMPT_LIMIT) throw new Error(`Attempt limit exceeded`)
+        if (attempt > action.attemptLimit) throw new Error(`Attempt limit exceeded`)
 
         // Handle rejection for the previous attempt first such that, on
         // the final attempt, time is not wasted rebasing it when it will
@@ -299,7 +298,7 @@ export async function deploy(action: ActionInterface): Promise<Status> {
           )
         }
 
-        info(`Pushing changes… (attempt ${attempt} of ${ATTEMPT_LIMIT})`)
+        info(`Pushing changes… (attempt ${attempt} of ${action.attemptLimit})`)
 
         const pushResult = await execute(
           `git push --porcelain ${action.repositoryPath} ${temporaryDeploymentBranch}:${action.branch}`,
